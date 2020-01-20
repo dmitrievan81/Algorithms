@@ -5,27 +5,12 @@
 #include <math.h>
 #include <stddef.h>
 #include <locale.h>
+#include "hwrkaux.h"
+#include "hwrklib.h"
 
 struct ChessPoint {int x; int y; int collor;}; 
+
 void menu();
-void task1();
-
-void setFormattedString_i(const char* fmt, char* bufj, int x1);
-
-int div_r(const int N, const int K, int* q, int* r);
-int haveOddInNumber(const int N);
-int quickPow(int a, int b);
-int numberOfDigits(int a);
-
-void inputInt(const char* descr_x, int* x);
-void inputInt2(const char* descr_x, const char* descr_y, int* x, int* y);
-void inputInt3(const char* descr_x, const char* descr_y, const char* descr_z, int* x, int* y, int* z);
-void inputInt4(const char* descr_x, const char* descr_y, const char* descr_z, int* x1, int* x2, int* x3, int* x4);
-
-void inputDouble(const char* descr_x, double* x);
-void inputDouble2(const char* descr_x, const char* descr_y, double* x, double* y);
-void inputDouble3(const char* descr_x, const char* descr_y, const char* descr_z, double* x, double* y, double* z);
-
 void task1();
 void task2();
 void task3();
@@ -113,107 +98,6 @@ int main(){
     }while(sel!=0);
     return 0;
 
-}
-
-int quickPow(int a, int b){
-    int n, s, k;
-    n = 1;
-    s = a;
-    k = b;
-    while(k!=0){
-
-        if(k%2==0){
-            s=s*s;
-            k/=2;
-        } else{
-            n=n*s;
-            k--;
-        }
-    }
-    return n;
-}
-
-int haveOddInNumber(const int N){
-    int isodd, a;
-    a=N;
-    isodd=0;
-    while(a != 0){
-        if((a%10)%2==1){
-            isodd = 1;
-            break;
-        }
-        a/=10;
-    }
-}
-
-int numberOfDigits(int a){
-    int count=0;
-    while(a>0){
-        a=a/10;
-        count++;
-    }
-    return count;
-}
-
-void setFormattedString_i(const char* fmt, char* buf, int x){
-
-    // int sz = snprintf(NULL, 0, fmt, x);
-    // char buf[sz + 1]; 
-    // snprintf(buf, sizeof(buf), fmt, sqrt(2));
-
-}
-
-void inputInt(const char* descr_x, int* x){
-    printf("Input %s: ", descr_x);
-    scanf("%i", x);
-}
-
-void inputInt2(const char* descr_x, const char* descr_y, int* x, int* y){
-    inputInt(descr_x, x);
-    inputInt(descr_y, y);
-}
-
-void inputInt3(const char* descr_x, const char* descr_y, const char* descr_z, int* x, int* y, int* z){
-
-    inputInt(descr_x, x);
-    inputInt(descr_y, y);
-    inputInt(descr_z, z);
-}
-
-void inputDouble(const char* descr_x, double* x){
-    printf("Input %s: ", descr_x);
-    scanf("%lf", x);
-}
-
-void inputDouble2(const char* descr_x, const char* descr_y, double* x, double* y){
-    inputDouble(descr_x, x);
-    inputDouble(descr_y, y);
-}
-
-void inputDouble3(const char* descr_x, const char* descr_y, const char* descr_z, double* x, double* y, double* z){
-
-    inputDouble(descr_x, x);
-    inputDouble(descr_y, y);
-    inputDouble(descr_z, z);
-}
-
-int div_r(int N, int K, int* q, int* r){
-    int c=0;
-    if (N<K){
-        *q=0;
-        *r=N;
-    } else if(N==K){
-        *q=1;
-        *r=0;
-    } else{
-        int D = N;               
-        while(D>K){
-            D=D-K;
-            c++;
-        }
-        *q=c;
-        *r=N-K*c;
-    }
 }
 
 void task1(){
@@ -354,11 +238,11 @@ void task9(){
     int a,b;
     inputInt2("a","b", &a, &b);
     for(int i=a; i<=b; i++){
-        printf("%i^2 = %i; ", i, quickPow(i,2));
+        printf("%i^2 = %i; ", i, pow_i_rq(i,2));
     }
     printf("\n");
     for(int i=a; i<=b; i++){
-        printf("%i^3 = %i; ", i, quickPow(i,3));
+        printf("%i^3 = %i; ", i, pow_i_rq(i,3));
     }
     printf("\n");
 }
@@ -429,21 +313,23 @@ void task16(){
 
 void menu(){
 
+
+    printf("0-exit\n");
     printf("1-task 1 (BMI)\n");
     printf("2-task 2 (max of 4th numbers)\n");
-    printf("1-task 3 (swap with tmp)\n");
-    printf("1-task 4 (swap without tmp)\n");
-    printf("1-task 5 (a*x**2+b*x+c=0)\n");
-    printf("1-task 6 (get season)\n");
-    printf("1-task 7 (get a human (from 1 to 150 year) readable designation of year)\n");
-    printf("1-task 8 (get a collor of chess square)\n");
-    printf("1-task 9 (get a x**2, x**3, where is x in [a,b])\n");
-    printf("1-task 10 (get a quatient and rest (q,r): a = b*q + r )\n");
-    printf("1-task 11 (find out if there are odd numbers in number)\n");
-    printf("1-task 12 (get an average numbers ending in 8)\n");
-    printf("1-task 13 (max(x1,x2,x3))\n");
-    printf("1-task 14 (not relized)(rand(1,100) with standart function rand())\n");
-    printf("1-task 15 (not realized)(rand(1,100) without standart function rand())\n");
-    printf("1-task 16 automorphic numbers\n");
+    printf("3-task 3 (swap with tmp)\n");
+    printf("4-task 4 (swap without tmp)\n");
+    printf("5-task 5 (a*x**2+b*x+c=0)\n");
+    printf("6-task 6 (get season)\n");
+    printf("7-task 7 (get a human (from 1 to 150 year) readable designation of year)\n");
+    printf("8-task 8 (get a collor of chess square)\n");
+    printf("9-task 9 (get a x**2, x**3, where is x in [a,b])\n");
+    printf("10-task 10 (get a quatient and rest (q,r): a = b*q + r )\n");
+    printf("11-task 11 (find out if there are odd numbers in number)\n");
+    printf("12-task 12 (get an average numbers ending in 8)\n");
+    printf("13-task 13 (max(x1,x2,x3))\n");
+    printf("14-task 14 (not relized)(rand(1,100) with standart function rand())\n");
+    printf("15-task 15 (not realized)(rand(1,100) without standart function rand())\n");
+    printf("16-task 16 automorphic numbers\n");
 
 }
